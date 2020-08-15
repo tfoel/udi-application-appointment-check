@@ -1,0 +1,18 @@
+name: check-for-free-appointment
+
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: "*/30 5-23 * * *"
+
+jobs:
+  do-check:
+    name: Checking for free UDI appointments
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+      - name: Runs script to check for appointments
+        run: ./check.sh "${{ secrets.udi_email }}" "${{ secrets.udi_password }}"
