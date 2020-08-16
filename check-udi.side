@@ -60,7 +60,7 @@
     }, {
       "id": "udi-repeat-month",
       "command": "repeatIf",
-      "target": "${ranked} < Date.parse('1 %CHECK_LIMIT%')"
+      "target": "${ranked} <= Date.parse('1 %CHECK_LIMIT%')"
     }, {
       "id": "udi-logout",
       "command": "click",
