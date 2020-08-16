@@ -5,7 +5,7 @@
   "url": "https://my.udi.no",
   "tests": [{
     "id": "udi-check-relevant-months",
-    "name": "login",
+    "name": "Check for free appointments",
     "commands": [{
       "id": "udi-open-login",
       "command": "open",
@@ -33,49 +33,34 @@
       "command": "click",
       "target": "xpath=//button[contains(.,'Change appointment')]"
     }, {
-      "id": "udi-check-august-few",
+      "id": "udi-check-months",
+      "command": "do"
+    }, {
+      "id": "udi-check-half-booked",
       "command": "assertElementNotPresent",
       "target": "css=.bookingCalendarHalfBookedDay"
     }, {
-      "id": "udi-check-august-many",
+      "id": "udi-check-little-booked",
       "command": "assertElementNotPresent",
       "target": "css=.bookingCalendarBookedDay"
     }, {
-      "id": "udi-goto-september",
+      "id": "udi-store-current",
+      "command": "storeText",
+      "target": "xpath=//div[@id='ctl00_BodyRegion_PageRegion_MainRegion_appointmentReservation_appointmentCalendar_pnlCalendarTop']/div/div[3]/h2",
+      "value": "current"
+    }, {
+      "id": "udi-rank-date",
+      "command": "executeScript",
+      "target": "return Date.parse('1 ' + ${current})",
+      "value": "ranked"
+    }, {
+      "id": "udi-goto-next-month",
       "command": "click",
       "target": "linkText=Next month"
     }, {
-      "id": "udi-check-september-few",
-      "command": "assertElementNotPresent",
-      "target": "css=.bookingCalendarHalfBookedDay"
-    }, {
-      "id": "udi-check-september-many",
-      "command": "assertElementNotPresent",
-      "target": "css=.bookingCalendarBookedDay"
-    }, {
-      "id": "udi-goto-october",
-      "command": "click",
-      "target": "linkText=Next month"
-    }, {
-      "id": "udi-check-october-few",
-      "command": "assertElementNotPresent",
-      "target": "css=.bookingCalendarHalfBookedDay"
-    }, {
-      "id": "udi-check-october-many",
-      "command": "assertElementNotPresent",
-      "target": "css=.bookingCalendarBookedDay"
-    }, {
-      "id": "udi-goto-november",
-      "command": "click",
-      "target": "linkText=Next month"
-    }, {
-      "id": "udi-check-november-few",
-      "command": "assertElementNotPresent",
-      "target": "css=.bookingCalendarHalfBookedDay"
-    }, {
-      "id": "udi-check-november-many",
-      "command": "assertElementNotPresent",
-      "target": "css=.bookingCalendarBookedDay"
+      "id": "udi-repeat-month",
+      "command": "repeatIf",
+      "target": "${ranked} < Date.parse('1 %CHECK_LIMIT%')"
     }, {
       "id": "udi-logout",
       "command": "click",

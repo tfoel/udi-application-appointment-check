@@ -1,30 +1,29 @@
 # udi-application-appointment-check
 
-Simple selenium script for checking UDI police appointment availability for a citizenship application.
+A simple selenium script for checking UDI police appointment availability for a citizenship application.
 
 To run this script from GitHub, the GitHub action needs the properties *udi_email* and *udi_password*
 set as secrets in the cloned project. This can be done in the settings tab under secrets. This data is
-the same that is being used to login and not visible to the outside or in logs.
+the same that is being used to login and not visible to the outside or in logs. Additionally, the
+*check_limit* property must be set to a combination of [month year] which is the latest date of interest.
+The month must be fully spelled out in English, e.g *August 2021*.
 
-By default, the script is run between 5am and 11pm each half hour. This behavior can by the cron
-expression in the *.github/workflows/main.yaml* file.
-
-The amounts of months to be checked is set by the navigation in the *check-udi.side* file. The first month
-being checked is the current month with any subsequent months being set by the individual steps. Additional
-months can be set by adding additional steps.
+By default, the script is run between 5am and 11pm each half hour. This behavior can be configured by
+changing the cron expression in the *.github/workflows/main.yaml* file.
 
 You can test the script locally by running
 
 ```cmd
-./check-udi.side <email> <password>
+./check-udi.side <email> <password> <limit>
 echo $?
 ```
 
-The script returns status code *0* if the check did successfully run but not discover any new appointments and
-*1* otherwise. A summary is also printed. As a result of the status codes, GitHub will notify you in case new
-appointments have become available.
+The script returns status code *0* if the check did successfully run but not discover any new appointments or
+timeout. If it fails or discovers an available appointment, status code *1* is returned. A summary is printed
+in any case. GitHub notifies the account holder on status code *1* such that the available appointment can be
+booked.
 
-The git configuration is set to avoid any accidental checkins of passwords or user identity but take extra
-care when committing to a cloned repository.
+The git configuration is set to avoid any accidental checkins of passwords, user identity or desired date but
+take extra caution when committing to a cloned repository.
 
 Best of luck on getting an appointment!
