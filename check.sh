@@ -1,7 +1,7 @@
 #!/bin/bash
 if [ $# -ne 3 ]; then
     echo "Use as: ./check.sh <email> <password> <check limit>"
-    exit 2
+    exit 3
 fi
 ESCAPED_PASSWORD=$(printf '%s\n' "$2" | sed -e 's/[\/&]/\\&/g')
 sed -e "s/%UDI_EMAIL%/$1/" -e "s/%UDI_PASSWORD%/$ESCAPED_PASSWORD/" -e "s/%CHECK_LIMIT%/$3/" check-udi.side > parsed.side
@@ -17,6 +17,10 @@ elif grep -q passed "result.txt"; then
   exit 0
 elif grep -q TimeoutError "result.txt"; then
   echo "UDI pages did not react within timeout boundaries."
+  rm result.txt
+  exit 0
+elif grep -q ElementNotInteractableError "result.txt"; then
+  echo "UDI pages responded with an unexpected result."
   rm result.txt
   exit 0
 else
