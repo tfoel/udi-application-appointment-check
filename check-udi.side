@@ -33,6 +33,15 @@
       "command": "click",
       "target": "xpath=//button[contains(.,'Change appointment')]"
     }, {
+      "id": "udi-check-no-appointment",
+      "command": "storeText",
+      "target": "css=body",
+      "value": "nothing"
+    }, {
+      "id": "udi-check-no-appointment",
+      "command": "if",
+      "target": "${nothing} != 'No appointments available for booking'"
+    }, {
       "id": "udi-check-months",
       "command": "do"
     }, {
@@ -65,6 +74,9 @@
       "id": "udi-logout",
       "command": "click",
       "target": "linkText=Log out"
+    }, {
+      "id": "udi-end-no-appointment",
+      "command": "end"
     }]
   }],
   "suites": [{
